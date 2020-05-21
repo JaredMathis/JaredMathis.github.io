@@ -17,10 +17,34 @@ const {
 } = require('/bible');
 
 const ctrl = 'HomeController';
-angular.module('bible', [])
-    .controller(ctrl, function ($scope) {
+angular.module('bible', []);
+
+angular.module('bible').controller(ctrl, function ($scope) {
+        function loadState() {
+            let json = localStorage.getItem('state');
+            $scope.state = JSON.parse(json) || {};
+
+            $scope.state.toggledWords = $scope.state.toggledWords || {};
+            $scope.state.fontSizeFactor = $scope.state.fontSizeFactor || 0;
+            saveState();
+        }
+
+        function saveState() {
+            localStorage.setItem('state', JSON.stringify($scope.state));
+        }
 
         logIndent(ctrl, context => {
+            loadState();
+
+            $scope.textLarger = () => {
+                $scope.state.fontSizeFactor += 1;
+                saveState();
+            };
+            $scope.textSmaller = () => {
+                $scope.state.fontSizeFactor -= 1;
+                saveState();
+            };
+
             $scope.books = getBooks();
 
             $scope.selectedBook = 'John';
@@ -50,10 +74,9 @@ angular.module('bible', [])
             }, true);
 
             $scope.clickWord = (word) => {
-                $scope.toggledWords[word.word] = !$scope.toggledWords[word.word];
+                $scope.state.toggledWords[word.word] = !$scope.state.toggledWords[word.word];
+                saveState();
             };
-
-            $scope.toggledWords = {};
 
             $scope.previousChapter = () => {
                 let log = false;

@@ -18,16 +18,28 @@
         </button> -->
 
             <ul class="navbar-nav mr-auto">
-                Book <li class="nav-item">
-                    <select 
-                    ng-options="book for book in books"
-                    ng-change="resetChapter()"
-                    ng-model="selectedBook"></select>                
+                <li class="nav-item">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text">Book</label>
+                        </div>
+                        <select
+                            class="custom-select"
+                            ng-options="book for book in books"
+                            ng-change="resetChapter()"
+                            ng-model="selectedBook"></select>
+                    </div>                                
                 </li>
-                Chapter <li class="nav-item" ng-show="selectedBook">
+                <li class="nav-item" ng-show="selectedBook">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text">Chapter</label>
+                        </div>
                     <select 
-                    ng-options="chapter as (chapter + 1) for chapter in chapters"
-                    ng-model="selectedChapter"></select>                
+                        class="custom-select"
+                        ng-options="chapter as (chapter + 1) for chapter in chapters"
+                        ng-model="selectedChapter"></select>      
+                    </div>            
                 </li>
             </ul>
             <!-- <form class="form-inline my-2 my-lg-0">
@@ -37,21 +49,32 @@
         </div>
     </nav>
 
-    <button ng-click="previousChapter()">Previous Chapter</button>
-    <button ng-click="nextChapter()">Next Chapter</button>
+    <button class="btn btn-secondary"
+        ng-click="previousChapter()">Previous Chapter</button>
+    <button class="btn btn-secondary"
+        ng-click="nextChapter()">Next Chapter</button>
+
+    <button class="btn btn-secondary"
+        ng-click="textLarger()">Text Larger</button>
+    <button class="btn btn-secondary"
+        ng-click="textSmaller()">Text Smaller</button>
 
     <div ng-repeat="p in verses">
-        <sup>{{ $index + 1 }}</sup>
+        <a target="_blank" ng-href="https://www.biblegateway.com/passage/?search={{selectedBook}} {{selectedChapter+1}}:{{index+1}}&version=NKJV">
+            <sup>{{ $index + 1 }}</sup>
+        </a>
         <span ng-repeat="word in p.verse">
-            <span ng-click="clickWord(word)" class="cursor-pointer">
+            <span ng-click="clickWord(word)" class="cursor-pointer" ng-style="{ 'font-size': (state.fontSizeFactor * .2 + 1) + 'em' }">
                 <!-- Sometimes the English is translated to an empty string -->
-                <span class="bracket">(</span><span ng-class="{ 'greek':toggledWords[word.word] }">{{ toggledWords[word.word] ? word.word : (word.text || ' ') }}</span><span class="bracket">)</span>
+                <span class="bracket" >(</span><span ng-class="{ 'translated':state.toggledWords[word.word] }">{{ state.toggledWords[word.word] ? word.word : (word.text || ' ') }}</span><span class="bracket">)</span>
             </span>
         </span>
     </div>
 
-    <button ng-click="previousChapter()">Previous Chapter</button>
-    <button ng-click="nextChapter()">Next Chapter</button>
+    <button class="btn btn-secondary"
+        ng-click="previousChapter()">Previous Chapter</button>
+    <button class="btn btn-secondary"
+        ng-click="nextChapter()">Next Chapter</button>
 
     <script src="bundle.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
