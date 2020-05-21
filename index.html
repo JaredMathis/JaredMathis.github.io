@@ -61,7 +61,7 @@
 
     <div ng-repeat="p in verses"
         ng-style="{ 'font-size': (state.fontSizeFactor * state.fontSizeFactor * .02 + state.fontSizeFactor * .2 + 1) + 'em' }">
-        <a target="_blank" ng-href="https://www.biblegateway.com/passage/?search={{selectedBook}} {{selectedChapter+1}}:{{index+1}}&version=NKJV"><sup>{{ $index + 1 }}</sup></a>
+        <a target="_blank" ng-href="https://www.biblegateway.com/passage/?search={{selectedBook}} {{selectedChapter+1}}:{{$index+1}}&version=NKJV"><sup>{{ $index + 1 }}</sup></a>
         <span ng-repeat="word in p.verse">
             <span ng-click="clickWord(word)" class="cursor-pointer">
                 <!-- Sometimes the English is translated to an empty string -->
