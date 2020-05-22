@@ -55,9 +55,9 @@
         ng-click="nextChapter()">Next Chapter</button>
 
     <button class="btn btn-secondary"
-        ng-click="textLarger()">Text Larger</button>
-    <button class="btn btn-secondary"
         ng-click="textSmaller()">Text Smaller</button>
+    <button class="btn btn-secondary"
+        ng-click="textLarger()">Text Larger</button>
 
     <div ng-repeat="p in verses"
         ng-style="{ 'font-size': (state.fontSizeFactor * state.fontSizeFactor * .02 + state.fontSizeFactor * .2 + 1) + 'em' }">
