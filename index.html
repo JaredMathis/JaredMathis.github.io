@@ -43,7 +43,7 @@
                         class="custom-select"
                         ng-style="getStyle()"
                         ng-options="chapter as (chapter + 1) for chapter in chapters"
-                        ng-model="selectedChapter"></select>      
+                        ng-model="state.selectedChapter"></select>      
                     </div>            
                 </li>
             </ul>
@@ -74,7 +74,7 @@
             <span ng-repeat="word in p.verse">
                 <span ng-click="clickWord(word)" class="cursor-pointer">
                     <!-- Sometimes the English is translated to an empty string -->
-                    <span class="bracket" >(</span><span ng-class="{ 'translated':state.toggledWords[word.word] }">{{ state.toggledWords[word.word] ? word.word : (word.text || ' ') }}</span><span class="bracket">)</span>
+                    <span class="bracket" >(</span><span ng-class="{ 'translated':state.toggledWords[word.word] }">{{ state.toggledWords[word.word] ? word.word : (word.text || '&nbsp;') }}</span><span class="bracket">)</span>
                 </span>
             </span>
         </div>

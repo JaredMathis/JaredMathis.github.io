@@ -50,30 +50,32 @@ angular.module('bible').controller(ctrl, function ($scope) {
             if (!$scope.state.selectedBook) {
                 $scope.state.selectedBook = 'John';
             }
-            $scope.selectedChapter = 0;
+            if (!$scope.state.selectedChapter) {
+                $scope.state.selectedChapter = 0;
+            }
 
             $scope.$watch('state.selectedBook', () => {
-                let log = true;
-                if (log) consoleLog('saving state');
-                saveState();
+                let log = false;
                 
                 let count = getChapterCount($scope.state.selectedBook);
                 $scope.chapters = range(count);
 
                 if (log) consoleLog('selected book watch');
                 if (log) consoleLog({chapters:$scope.chapters});
-                if (log) consoleLog({selectedChapter:$scope.selectedChapter});
+                if (log) consoleLog({selectedChapter:$scope.state.selectedChapter});
             });
 
             $scope.resetChapter = () => {
-                $scope.selectedChapter = $scope.chapters[0];
+                $scope.state.selectedChapter = $scope.chapters[0];
             };
 
             $scope.$watch(() => {
-                return [$scope.state.selectedBook, $scope.selectedChapter] 
+                return [$scope.state.selectedBook, $scope.state.selectedChapter] 
             }, () => {
                 let log = false;
-                $scope.verses = getVerses($scope.state.selectedBook, $scope.selectedChapter);
+                if (log) consoleLog('saving state');
+                saveState();
+                $scope.verses = getVerses($scope.state.selectedBook, $scope.state.selectedChapter);
                 if (log) consoleLog({verses: $scope.verses})
             }, true);
 
@@ -85,29 +87,29 @@ angular.module('bible').controller(ctrl, function ($scope) {
             $scope.previousChapter = () => {
                 let log = false;
                 if (log) consoleLog('previousChapter');
-                $scope.selectedChapter = $scope.selectedChapter - 1;
+                $scope.state.selectedChapter = $scope.state.selectedChapter - 1;
                 if ($scope.selectedChapter < 0) {
                     let selectedBookIndex = $scope.books.indexOf($scope.state.selectedBook) - 1;
                     if (selectedBookIndex < 0) {
                         selectedBookIndex = $scope.books.length - 1;
                     }
                     $scope.state.selectedBook = $scope.books[selectedBookIndex];
-                    $scope.selectedChapter = getChapterCount($scope.state.selectedBook) - 1;
-                    if (log) consoleLog({'$scope.selectedChapter':$scope.selectedChapter})
+                    $scope.state.selectedChapter = getChapterCount($scope.state.selectedBook) - 1;
+                    if (log) consoleLog({'$scope.state.selectedChapter':$scope.state.selectedChapter})
                 }
             };
             $scope.nextChapter = () => {
                 let log = false;
                 if (log) consoleLog('previousChapter');
-                $scope.selectedChapter = $scope.selectedChapter + 1;
-                if ($scope.selectedChapter > getChapterCount($scope.state.selectedBook) - 1) {
+                $scope.state.selectedChapter = $scope.state.selectedChapter + 1;
+                if ($scope.state.selectedChapter > getChapterCount($scope.state.selectedBook) - 1) {
                     let selectedBookIndex = $scope.books.indexOf($scope.state.selectedBook) + 1;
                     if (selectedBookIndex < 0) {
                         selectedBookIndex = 0;
                     }
                     $scope.state.selectedBook = $scope.books[selectedBookIndex];
-                    $scope.selectedChapter = 0;
-                    if (log) consoleLog({'$scope.selectedChapter':$scope.selectedChapter})
+                    $scope.state.selectedChapter = 0;
+                    if (log) consoleLog({'$scope.state.selectedChapter':$scope.state.selectedChapter})
                 }
             };
             $scope.getStyle = function () {
