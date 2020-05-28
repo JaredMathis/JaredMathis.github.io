@@ -106,5 +106,12 @@ angular.module('bible').controller(ctrl, function ($scope) {
                     if (log) consoleLog({'$scope.selectedChapter':$scope.selectedChapter})
                 }
             };
+            $scope.getStyle = function () {
+                let square = $scope.state.fontSizeFactor * $scope.state.fontSizeFactor;
+                let style = { 
+                    'font-size': (square * .02 + $scope.state.fontSizeFactor * .2 + 1) + 'em',
+                };
+                return style;
+            };
         });
     });
