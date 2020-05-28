@@ -11,7 +11,8 @@
 
 <body ng-app="bible" ng-controller="HomeController">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Intralinear Bible</a>
+        <a class="navbar-brand" href="#"
+            ng-style="getStyle()">Intralinear Bible</a>
         <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -21,22 +22,26 @@
                 <li class="nav-item">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <label class="input-group-text">Book</label>
+                            <label class="input-group-text"
+                                ng-style="getStyle()">Book</label>
                         </div>
                         <select
                             class="custom-select"
+                            ng-style="getStyle()"
                             ng-options="book for book in books"
                             ng-change="resetChapter()"
-                            ng-model="selectedBook"></select>
+                            ng-model="state.selectedBook"></select>
                     </div>                                
                 </li>
-                <li class="nav-item" ng-show="selectedBook">
+                <li class="nav-item" ng-show="state.selectedBook">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <label class="input-group-text">Chapter</label>
+                            <label class="input-group-text"
+                                ng-style="getStyle()">Chapter</label>
                         </div>
                     <select 
                         class="custom-select"
+                        ng-style="getStyle()"
                         ng-options="chapter as (chapter + 1) for chapter in chapters"
                         ng-model="selectedChapter"></select>      
                     </div>            
@@ -50,18 +55,22 @@
     </nav>
 
     <button class="btn btn-secondary"
+        ng-style="getStyle()"
         ng-click="previousChapter()">Previous Chapter</button>
     <button class="btn btn-secondary"
+        ng-style="getStyle()"
         ng-click="nextChapter()">Next Chapter</button>
 
     <button class="btn btn-secondary"
+        ng-style="getStyle()"
         ng-click="textSmaller()">Text Smaller</button>
     <button class="btn btn-secondary"
+        ng-style="getStyle()"
         ng-click="textLarger()">Text Larger</button>
 
     <div ng-style="getStyle()">
         <div ng-repeat="p in verses">
-            <a target="_blank" ng-href="https://www.biblegateway.com/passage/?search={{selectedBook}} {{selectedChapter+1}}:{{$index+1}}&version=NKJV"><sup>{{ $index + 1 }}</sup></a>
+            <a target="_blank" ng-href="https://www.biblegateway.com/passage/?search={{state.selectedBook}} {{selectedChapter+1}}:{{$index+1}}&version=NKJV"><sup>{{ $index + 1 }}</sup></a>
             <span ng-repeat="word in p.verse">
                 <span ng-click="clickWord(word)" class="cursor-pointer">
                     <!-- Sometimes the English is translated to an empty string -->
@@ -72,10 +81,12 @@
     </div>
     
     <button class="btn btn-secondary"
+        ng-style="getStyle()"
         ng-click="previousChapter()">Previous Chapter</button>
     <button class="btn btn-secondary"
+        ng-style="getStyle()"
         ng-click="nextChapter()">Next Chapter</button>
-
+    
     <script src="bundle.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
     <script src="HomeController.js"></script>

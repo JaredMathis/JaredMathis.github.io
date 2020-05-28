@@ -47,13 +47,17 @@ angular.module('bible').controller(ctrl, function ($scope) {
 
             $scope.books = getBooks();
 
-            $scope.selectedBook = 'John';
+            if (!$scope.state.selectedBook) {
+                $scope.state.selectedBook = 'John';
+            }
             $scope.selectedChapter = 0;
 
-            $scope.$watch('selectedBook', () => {
-                let log = false;
-
-                let count = getChapterCount($scope.selectedBook);
+            $scope.$watch('state.selectedBook', () => {
+                let log = true;
+                if (log) consoleLog('saving state');
+                saveState();
+                
+                let count = getChapterCount($scope.state.selectedBook);
                 $scope.chapters = range(count);
 
                 if (log) consoleLog('selected book watch');
@@ -66,10 +70,10 @@ angular.module('bible').controller(ctrl, function ($scope) {
             };
 
             $scope.$watch(() => {
-                return [$scope.selectedBook, $scope.selectedChapter] 
+                return [$scope.state.selectedBook, $scope.selectedChapter] 
             }, () => {
                 let log = false;
-                $scope.verses = getVerses($scope.selectedBook, $scope.selectedChapter);
+                $scope.verses = getVerses($scope.state.selectedBook, $scope.selectedChapter);
                 if (log) consoleLog({verses: $scope.verses})
             }, true);
 
@@ -83,12 +87,12 @@ angular.module('bible').controller(ctrl, function ($scope) {
                 if (log) consoleLog('previousChapter');
                 $scope.selectedChapter = $scope.selectedChapter - 1;
                 if ($scope.selectedChapter < 0) {
-                    let selectedBookIndex = $scope.books.indexOf($scope.selectedBook) - 1;
+                    let selectedBookIndex = $scope.books.indexOf($scope.state.selectedBook) - 1;
                     if (selectedBookIndex < 0) {
                         selectedBookIndex = $scope.books.length - 1;
                     }
-                    $scope.selectedBook = $scope.books[selectedBookIndex];
-                    $scope.selectedChapter = getChapterCount($scope.selectedBook) - 1;
+                    $scope.state.selectedBook = $scope.books[selectedBookIndex];
+                    $scope.selectedChapter = getChapterCount($scope.state.selectedBook) - 1;
                     if (log) consoleLog({'$scope.selectedChapter':$scope.selectedChapter})
                 }
             };
@@ -96,12 +100,12 @@ angular.module('bible').controller(ctrl, function ($scope) {
                 let log = false;
                 if (log) consoleLog('previousChapter');
                 $scope.selectedChapter = $scope.selectedChapter + 1;
-                if ($scope.selectedChapter > getChapterCount($scope.selectedBook) - 1) {
-                    let selectedBookIndex = $scope.books.indexOf($scope.selectedBook) + 1;
+                if ($scope.selectedChapter > getChapterCount($scope.state.selectedBook) - 1) {
+                    let selectedBookIndex = $scope.books.indexOf($scope.state.selectedBook) + 1;
                     if (selectedBookIndex < 0) {
                         selectedBookIndex = 0;
                     }
-                    $scope.selectedBook = $scope.books[selectedBookIndex];
+                    $scope.state.selectedBook = $scope.books[selectedBookIndex];
                     $scope.selectedChapter = 0;
                     if (log) consoleLog({'$scope.selectedChapter':$scope.selectedChapter})
                 }
