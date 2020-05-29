@@ -1,53 +1,60 @@
 <html>
 
 <head>
-    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-    <meta content="utf-8" http-equiv="encoding">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <meta content="text/html;charset=utf-8"
+        http-equiv="Content-Type">
+    <meta content="utf-8"
+        http-equiv="encoding">
+    <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+        crossorigin="anonymous">
 
-    <link rel="stylesheet" href="style.css"></link>
+    <link rel="stylesheet"
+        href="style.css">
+    </link>
 </head>
 
-<body ng-app="bible" ng-controller="HomeController">
+<body ng-app="bible"
+    ng-controller="HomeController">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#"
+        <a class="navbar-brand"
+            href="#"
             ng-style="getStyle()">Intralinear Bible</a>
         <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button> -->
 
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text"
-                                ng-style="getStyle()">Book</label>
-                        </div>
-                        <select
-                            class="custom-select"
-                            ng-style="getStyle()"
-                            ng-options="book for book in books"
-                            ng-change="resetChapter()"
-                            ng-model="state.selectedBook"></select>
-                    </div>                                
-                </li>
-                <li class="nav-item" ng-show="state.selectedBook">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text"
-                                ng-style="getStyle()">Chapter</label>
-                        </div>
-                    <select 
-                        class="custom-select"
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text"
+                            ng-style="getStyle()">Book</label>
+                    </div>
+                    <select class="custom-select"
+                        ng-style="getStyle()"
+                        ng-options="book for book in books"
+                        ng-change="resetChapter()"
+                        ng-model="state.selectedBook"></select>
+                </div>
+            </li>
+            <li class="nav-item"
+                ng-show="state.selectedBook">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text"
+                            ng-style="getStyle()">Chapter</label>
+                    </div>
+                    <select class="custom-select"
                         ng-style="getStyle()"
                         ng-options="chapter as (chapter + 1) for chapter in chapters"
-                        ng-model="state.selectedChapter"></select>      
-                    </div>            
-                </li>
-            </ul>
-            <!-- <form class="form-inline my-2 my-lg-0">
+                        ng-model="state.selectedChapter"></select>
+                </div>
+            </li>
+        </ul>
+        <!-- <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form> -->
@@ -68,25 +75,36 @@
         ng-style="getStyle()"
         ng-click="textLarger()">Text Larger</button>
 
+    <button class="btn btn-secondary"
+        ng-style="getStyle()"
+        ng-click="translateAll()">Translate All</button>
+    <button class="btn btn-secondary"
+        ng-style="getStyle()"
+        ng-click="unTranslateAll()">UnTranslate All</button>
+
     <div ng-style="getStyle()">
         <div ng-repeat="p in verses">
-            <a target="_blank" ng-href="https://www.biblegateway.com/passage/?search={{state.selectedBook}} {{selectedChapter+1}}:{{$index+1}}&version=NKJV"><sup>{{ $index + 1 }}</sup></a>
+            <a target="_blank"
+                ng-href="https://www.biblegateway.com/passage/?search={{state.selectedBook}} {{selectedChapter+1}}:{{$index+1}}&version=NKJV"><sup>{{ $index + 1 }}</sup></a>
             <span ng-repeat="word in p.verse">
-                <span ng-click="clickWord(word)" class="cursor-pointer">
+                <span ng-click="clickWord(word)"
+                    class="cursor-pointer">
                     <!-- Sometimes the English is translated to an empty string -->
-                    <span class="bracket" >(</span><span ng-class="{ 'translated':state.toggledWords[word.word] }">{{ state.toggledWords[word.word] ? word.word : (word.text || '&nbsp;') }}</span><span class="bracket">)</span>
+                    <span class="bracket">(</span><span
+                        ng-class="{ 'translated':state.toggledWords[word.word] }">{{ state.toggledWords[word.word] ? word.word : (word.text || '&nbsp;') }}</span><span
+                        class="bracket">)</span>
                 </span>
             </span>
         </div>
     </div>
-    
+
     <button class="btn btn-secondary"
         ng-style="getStyle()"
         ng-click="previousChapter()">Previous Chapter</button>
     <button class="btn btn-secondary"
         ng-style="getStyle()"
         ng-click="nextChapter()">Next Chapter</button>
-    
+
     <script src="bundle.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
     <script src="HomeController.js"></script>
